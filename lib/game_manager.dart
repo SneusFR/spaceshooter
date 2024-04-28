@@ -10,6 +10,8 @@ import 'main/main_screen.dart';
 class GameManager extends FlameGame with HasCollidables, PanDetector {
   late GameScreen _gameScreen;
   late MainScreen _mainScreen;
+  bool isProtected = false; // Initialement, le joueur n'est pas protégé.
+
 
   GameManager() {
     _mainScreen = MainScreen(() {
