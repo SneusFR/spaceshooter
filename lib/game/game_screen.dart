@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/src/gestures/events.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:spaceshooter/game_manager.dart';
 import '../common/enemy.dart';
 import 'bullet.dart';
 import 'explosion.dart';
+import 'medical.dart';
 import 'player.dart';
 
 class GameScreen extends Component with HasGameRef<GameManager> {
@@ -19,6 +21,7 @@ class GameScreen extends Component with HasGameRef<GameManager> {
   late Timer enemySpawner;
   late Timer bulletSpawner;
   int score = 0;
+  double cpt = 0.9;
 
   @override
   Future<void>? onLoad() {
@@ -50,6 +53,8 @@ class GameScreen extends Component with HasGameRef<GameManager> {
     var bullet = Bullet();
     bullet.position = _player.position.clone();
     add(bullet);
+    FlameAudio.play('laser.wav');
+
   }
 
   void _spawnEnemy() {
@@ -62,15 +67,37 @@ class GameScreen extends Component with HasGameRef<GameManager> {
     gameRef.endGame(score);
   }
 
+  void _onMedicalTouch(Vector2 position){
+    FlameAudio.play('powerUP.wav');
+
+    bulletSpawner.stop();  // Arrête le timer actuel
+    bulletSpawner = Timer(cpt, onTick: _spawnBullet, repeat: true);
+    bulletSpawner.start();  // Redémarre le timer avec le nouvel intervalle
+    cpt -=0.1;
+
+  }
   void startBgmMusic() {
     FlameAudio.bgm.initialize();
     FlameAudio.bgm.play('8bit.mp3');
   }
 
   void _onEnemyTouch(Vector2 position){
+
+    var rng = Random();
+
+    int chance = rng.nextInt(2);
+
     var explosion = Explosion();
     explosion.position = position;
     add(explosion);
+    FlameAudio.play('explosion.wav');
+
+
+    if (chance == 0) {
+      var medical = Medical((_onMedicalTouch));
+      medical.position = position;
+      add(medical);
+    }
     score++;
     _playerScore.text = "Score : $score";
 
@@ -82,6 +109,7 @@ class GameScreen extends Component with HasGameRef<GameManager> {
           repeat: true);
     }
   }
+
 
   void onPanUpdate(DragUpdateInfo info) {
     if (isMounted) {
