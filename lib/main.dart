@@ -9,7 +9,7 @@ void main() {
 
   Flame.device.fullScreen();
   Flame.device.setPortrait();
-  print("caca");
+
 
   runApp(const MyApp());
 }
