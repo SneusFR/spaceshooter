@@ -143,13 +143,6 @@ class GameScreen extends Component with HasGameRef<GameManager> {
     }
   }
 
-
-  void onPanUpdate(DragUpdateInfo info) {
-    if (isMounted) {
-      _player.move(info.delta.game);
-    }
-  }
-
   @override
   void onMount() {
     super.onMount();

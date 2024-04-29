@@ -1,15 +1,18 @@
+import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:spaceshooter/shop/shop_screen.dart';
 
 import 'game/game_screen.dart';
 import 'main/main_screen.dart';
 
-class GameManager extends FlameGame with HasCollidables, PanDetector {
+class GameManager extends FlameGame with HasCollidables, HasTappables, HasDraggables {
   late GameScreen _gameScreen;
   late MainScreen _mainScreen;
+  late ShopScreen _shopScreen;
   bool isProtected = false; // Initialement, le joueur n'est pas protégé.
 
 
@@ -27,16 +30,6 @@ class GameManager extends FlameGame with HasCollidables, PanDetector {
     add(_mainScreen);
   }
 
-  // redirige l'événement de pan directement à MainScreen, permettant à ce dernier de gérer l'événement.  @override
-  void onPanStart(DragStartInfo info) {
-  _mainScreen.onPanStart(info);
-  }
-
-  @override
-  void onPanUpdate(DragUpdateInfo info) {
-    _gameScreen.onPanUpdate(info);
-  }
-
   void endGame(int score) {
     remove(_gameScreen);
     _mainScreen.setScore(score);
@@ -44,5 +37,11 @@ class GameManager extends FlameGame with HasCollidables, PanDetector {
 
     add(_mainScreen);
 
+  }
+
+  void changeScreen() {
+    remove(_mainScreen);
+    _shopScreen = ShopScreen();
+    add (_shopScreen);
   }
 }

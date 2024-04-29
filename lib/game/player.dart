@@ -5,13 +5,12 @@ import 'package:flame/assets.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/geometry.dart';
+import 'package:flame/input.dart';
 import 'package:flame/sprite.dart';
 import 'package:spaceshooter/game_manager.dart';
 import 'package:spaceshooter/common/enemy.dart';
 
-
-class Player extends SpriteAnimationComponent with HasGameRef<GameManager>, HasHitboxes, Collidable {
-
+class Player extends SpriteAnimationComponent with HasGameRef<GameManager>, HasHitboxes, Collidable, Draggable {
   final VoidCallback onTouch;
 
   Player(this.onTouch);
@@ -30,9 +29,14 @@ class Player extends SpriteAnimationComponent with HasGameRef<GameManager>, HasH
     addHitbox(HitboxRectangle());
   }
 
-  void move(Vector2 delta) {
-    position.add(delta);
+
+  @override
+  bool onDragUpdate(int pointerId, DragUpdateInfo info) {
+
+    position.add(info.delta.game);
+    return true;
   }
+
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, Collidable other) {
