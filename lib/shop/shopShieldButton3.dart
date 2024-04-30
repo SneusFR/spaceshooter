@@ -5,21 +5,20 @@ import 'package:flame/input.dart';
 import 'package:spaceshooter/game_manager.dart';
 import 'package:spaceshooter/shop/tooltip.dart';
 
-class ShopShieldButton extends SpriteComponent with HasGameRef<GameManager>, Tappable {
-  ShopShieldButton() : super(anchor: Anchor.center);
-
+class ShopShieldButton3 extends SpriteComponent with HasGameRef<GameManager>, Tappable {
+  ShopShieldButton3() : super(anchor: Anchor.center);
   TooltipComponent? currentTooltip;
 
-  var prix = 50;
-  var nom = "Uzi";
-  var description = "Une arme savaltrice\n pour tout astronaute";
+  var prix = 80;
+  var nom = "Poing américain";
+  var description = "BOOM dans la gueule";
 
   @override
   Future<void>? onLoad() async {
     super.onLoad();
-    sprite = await Sprite.load('uzi.png');
+    sprite = await Sprite.load('américain.png');
     size = Vector2(115, 92);
-    position = Vector2(130, 100);
+    position = Vector2(360, 100);
   }
 
   @override

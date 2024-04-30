@@ -64,6 +64,7 @@ flutter:
     - assets/audio/explosion.wav
     - assets/audio/laser.wav
     - assets/audio/powerUP.wav
+    - assets/audio/shop.mp3
 
 
 

@@ -79,7 +79,9 @@ class GameScreen extends Component with HasGameRef<GameManager> {
     bulletSpawner.stop();  // Arrête le timer actuel
     bulletSpawner = Timer(cpt, onTick: _spawnBullet, repeat: true);
     bulletSpawner.start();  // Redémarre le timer avec le nouvel intervalle
-    cpt -=0.1;
+    if (cpt > 0.1) {
+      cpt -=0.1;
+    }
 
   }
 
@@ -112,7 +114,7 @@ class GameScreen extends Component with HasGameRef<GameManager> {
 
     var rng = Random();
 
-    int chance = rng.nextInt(5);
+    int chance = rng.nextInt(10);
 
     var explosion = Explosion();
     explosion.position = position;

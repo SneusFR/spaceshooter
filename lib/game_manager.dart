@@ -44,4 +44,10 @@ class GameManager extends FlameGame with HasCollidables, HasTappables, HasDragga
     _shopScreen = ShopScreen();
     add (_shopScreen);
   }
+
+  void startGame() {
+    remove(_mainScreen);
+    _gameScreen = GameScreen();
+    add (_gameScreen);
+  }
 }
